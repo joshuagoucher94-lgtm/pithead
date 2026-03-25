@@ -1,0 +1,52 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Cacao — PITHEAD ROASTWORKS" description="Real chocolate. Melted and served. Not powder.">
+  <section class="border-b border-offwhite/10 py-20 md:py-28">
+    <div class="mx-auto max-w-7xl px-4 md:px-8">
+      <h1 class="text-4xl font-bold uppercase tracking-tight text-offwhite md:text-6xl">Cacao</h1>
+      <p class="mt-6 max-w-2xl text-xl font-medium text-offwhite/80">
+        Real chocolate. Not powder. Melted and served.
+      </p>
+    </div>
+  </section>
+  <section class="border-b border-offwhite/10 py-16 md:py-24">
+    <div class="mx-auto grid max-w-7xl gap-12 px-4 md:grid-cols-2 md:px-8">
+      <div>
+        <h2 class="text-xl font-bold uppercase tracking-tight text-offwhite">What it is</h2>
+        <ul class="mt-6 space-y-4 text-base font-medium text-offwhite/75">
+          <li>Real chocolate.</li>
+          <li>Not powder.</li>
+          <li>Melted and served.</li>
+        </ul>
+      </div>
+      <div>
+        <h2 class="text-xl font-bold uppercase tracking-tight text-imperial">Menu</h2>
+        <ul class="mt-6 space-y-4 text-base font-medium text-offwhite/75">
+          <li>Cacao shot</li>
+          <li>Cacao cappuccino</li>
+          <li>Mocha system</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+  <section class="py-20 md:py-28">
+    <div class="mx-auto max-w-7xl px-4 md:px-8">
+      <div class="grid gap-8 md:grid-cols-2">
+        <div class="flex aspect-video items-center justify-center border border-offwhite/20 bg-[#1a1a1a]">
+          <span class="text-xs font-bold uppercase tracking-widest text-offwhite/40">Texture</span>
+        </div>
+        <div class="flex aspect-video items-center justify-center border border-offwhite/20 bg-[#141414]">
+          <span class="text-xs font-bold uppercase tracking-widest text-offwhite/40">Melted</span>
+        </div>
+      </div>
+      <a
+        href="/drinks/"
+        class="mt-12 inline-block border-2 border-imperial bg-imperial px-8 py-4 text-xs font-bold uppercase tracking-widest text-offwhite hover:bg-coal"
+      >
+        Try cacao
+      </a>
+    </div>
+  </section>
+</BaseLayout>

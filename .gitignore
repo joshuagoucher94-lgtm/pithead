@@ -1,0 +1,8 @@
+node_modules/
+dist/
+.astro/
+php/public/_inc/config.local.php
+php/public/_inc/logs/*.log
+.DS_Store
+*.zip
+deploy/

@@ -1,0 +1,77 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const items = [
+  { cat: 'Coffee', rows: [
+    { name: 'Espresso', price: '£2.80' },
+    { name: 'Long black', price: '£3.20' },
+    { name: 'Flat white', price: '£3.60' },
+    { name: 'Latte', price: '£3.80' },
+  ]},
+  { cat: 'Cacao', rows: [
+    { name: 'Cacao shot', price: '£2.20' },
+    { name: 'Cacao cappuccino', price: '£3.90' },
+    { name: 'Pit mocha', price: '£4.40', hi: true },
+  ]},
+  { cat: 'Melted chocolate', rows: [
+    { name: '70%', price: '£3.50' },
+    { name: '40%', price: '£3.50' },
+    { name: 'White', price: '£3.50', hi: true },
+  ]},
+  { cat: 'Shiver shakes', rows: [
+    { name: 'Build', price: '£4.80', hi: true },
+  ]},
+];
+---
+
+<BaseLayout title="Drinks — PITHEAD ROASTWORKS" description="Kiosk menu. Pit mocha. Shiver shakes.">
+  <section class="min-h-[70vh] border-b border-offwhite/10 bg-[#0a0a0a] py-16 md:py-24">
+    <div class="mx-auto max-w-5xl px-4 md:px-8">
+      <div class="border-2 border-offwhite/30 bg-coal p-6 md:p-10">
+        <div class="flex flex-col justify-between gap-4 border-b-2 border-offwhite/20 pb-6 md:flex-row md:items-end">
+          <div>
+            <p class="text-xs font-bold uppercase tracking-[0.4em] text-stone">Pithead</p>
+            <h1 class="mt-2 text-3xl font-bold uppercase tracking-tight text-offwhite md:text-5xl">Drink board</h1>
+          </div>
+          <p class="text-sm font-semibold uppercase tracking-widest text-offwhite/50">All prices indicative</p>
+        </div>
+        <div class="mt-10 grid gap-10 md:grid-cols-2">
+          {items.map((block) => (
+            <div>
+              <h2 class="border-b border-imperial pb-2 text-sm font-bold uppercase tracking-widest text-imperial">
+                {block.cat}
+              </h2>
+              <ul class="mt-4 space-y-0">
+                {block.rows.map((r) => (
+                  <li
+                    class:list={[
+                      'flex items-baseline justify-between border-b border-offwhite/10 py-3 text-sm font-medium md:text-base',
+                      r.hi ? 'text-imperial' : 'text-offwhite/90',
+                    ]}
+                  >
+                    <span class="uppercase tracking-tight">{r.name}</span>
+                    <span class="font-bold tabular-nums">{r.price}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </div>
+      <div class="mt-10 flex flex-wrap gap-4">
+        <a
+          href="/wholesale/"
+          class="inline-block border-2 border-offwhite px-6 py-3 text-xs font-bold uppercase tracking-widest text-offwhite hover:border-imperial"
+        >
+          Find us
+        </a>
+        <a
+          href="/shop/"
+          class="inline-block border-2 border-imperial bg-imperial px-6 py-3 text-xs font-bold uppercase tracking-widest text-offwhite hover:bg-coal"
+        >
+          Order now
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

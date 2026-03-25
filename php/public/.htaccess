@@ -1,0 +1,23 @@
+DirectoryIndex index.html index.php
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # Admin dashboard: /admin and /admin/ → admin/index.php (avoids 404 when trailing slash / index handling differs per host)
+  RewriteRule ^admin/?$ admin/index.php [L,QSA]
+
+  # Shop product pretty URLs: /shop/product-slug
+  RewriteRule ^shop/([a-z0-9-]+)/?$ shop/product.php?slug=$1 [L,QSA]
+
+  # Force HTTPS in production (comment locally if needed)
+  # RewriteCond %{HTTPS} !=on
+  # RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+</IfModule>
+
+# Security headers where mod_headers available
+<IfModule mod_headers.c>
+  Header set X-Content-Type-Options "nosniff"
+  Header set X-Frame-Options "SAMEORIGIN"
+  Header set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>

@@ -1,0 +1,75 @@
+<section class="border-b border-offwhite/10 bg-coal py-20 md:py-28" x-data="featuredProducts()" x-init="load()">
+  <div class="mx-auto max-w-7xl px-4 md:px-8">
+    <h2 class="text-3xl font-bold uppercase tracking-tight text-offwhite md:text-4xl">Core line</h2>
+    <p class="mt-2 text-sm text-offwhite/60">Loaded from inventory.</p>
+    <div class="mt-12 grid gap-6 md:grid-cols-3">
+      <template x-if="loading">
+        <p class="col-span-full text-sm text-offwhite/50">Loading…</p>
+      </template>
+      <template x-if="error">
+        <div class="col-span-full">
+          <p class="text-sm text-imperial" x-text="error"></p>
+          <a href="/shop/" class="mt-2 inline-block text-xs font-bold uppercase tracking-widest text-offwhite underline"
+            >Shop</a
+          >
+        </div>
+      </template>
+      <template x-for="p in products" :key="p.id">
+        <article class="flex flex-col border border-offwhite/15 bg-[#161616] p-6">
+          <h3 class="text-xl font-bold uppercase tracking-tight text-offwhite" x-text="p.name"></h3>
+          <p class="mt-2 flex-1 text-sm text-offwhite/70" x-text="p.short_description"></p>
+          <p class="mt-4 text-xs font-bold uppercase tracking-widest text-stone" x-text="p.weight_label"></p>
+          <p class="mt-2 text-lg font-bold text-offwhite">
+            <span x-text="formatMoney(p.price_cents, p.currency)"></span>
+          </p>
+          <form :action="cartAddUrl" method="post" class="mt-6">
+            <input type="hidden" name="product_id" :value="p.id" />
+            <input type="hidden" name="qty" value="1" />
+            <input type="hidden" name="csrf" :value="csrfToken" />
+            <input type="hidden" name="redirect" value="/" />
+            <button
+              type="submit"
+              class="w-full border-2 border-offwhite py-3 text-xs font-bold uppercase tracking-widest text-offwhite hover:border-imperial hover:text-imperial"
+            >
+              Add to cart
+            </button>
+          </form>
+        </article>
+      </template>
+    </div>
+    <noscript>
+      <p class="mt-8 text-sm text-offwhite/70">
+        <a href="/shop/" class="font-bold uppercase tracking-widest text-imperial underline">Open shop</a> for products.
+      </p>
+    </noscript>
+  </div>
+  <script is:inline>
+    function featuredProducts() {
+      return {
+        products: [],
+        loading: true,
+        error: '',
+        csrfToken: '',
+        cartAddUrl: '/api/cart-add.php',
+        async load() {
+          try {
+            const r = await fetch('/api/products.php?featured=1');
+            const j = await r.json();
+            if (!r.ok) throw new Error(j.error || 'Load failed');
+            this.products = j.products || [];
+            this.csrfToken = j.csrf || '';
+          } catch (e) {
+            this.error = e.message || 'Unavailable';
+          } finally {
+            this.loading = false;
+          }
+        },
+        formatMoney(cents, cur) {
+          const n = (cents / 100).toFixed(2);
+          const c = (cur || 'gbp').toUpperCase();
+          return c === 'GBP' ? '£' + n : n + ' ' + c;
+        },
+      };
+    }
+  </script>
+</section>
