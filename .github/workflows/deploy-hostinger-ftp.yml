@@ -54,10 +54,39 @@ jobs:
           name: pithead-public_html
           path: deploy
 
+      # Strip accidental ftp://, paths, ports, newlines — common cause of ENOTFOUND
+      - name: Normalize FTP hostname
+        id: ftp_host
+        env:
+          RAW: ${{ secrets.HOSTINGER_FTP_HOST }}
+        run: |
+          python3 << 'PY'
+          import os, re, socket
+          raw = (os.environ.get("RAW") or "").strip()
+          if not raw:
+              print("::error::HOSTINGER_FTP_HOST secret is empty. Use hostname only, e.g. ftp.example.com")
+              raise SystemExit(1)
+          h = re.sub(r"^(ftps?|sftp)://", "", raw, flags=re.I).strip().rstrip("/")
+          h = h.split("/")[0]
+          if h.startswith("[") and "]" in h:
+              pass
+          elif ":" in h:
+              host, _, port = h.rpartition(":")
+              if port.isdigit():
+                  h = host
+          try:
+              socket.getaddrinfo(h, None)
+          except socket.gaierror:
+              print("::error::Cannot resolve FTP host %r (ENOTFOUND). In GitHub → Settings → Secrets, set HOSTINGER_FTP_HOST to the exact FTP server from hPanel (Files → FTP Accounts), hostname only — no https://, no spaces." % (h,))
+              raise SystemExit(1)
+          with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as f:
+              f.write(f"server={h}\n")
+          PY
+
       - name: Upload to Hostinger
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          server: ${{ secrets.HOSTINGER_FTP_HOST }}
+          server: ${{ steps.ftp_host.outputs.server }}
           username: ${{ secrets.HOSTINGER_FTP_USERNAME }}
           password: ${{ secrets.HOSTINGER_FTP_PASSWORD }}
           port: 21

@@ -35,6 +35,16 @@ On every push to **`main`** or **`master`** it builds that bundle, uploads **`pi
 
 5. **Until the three FTP secrets exist**, the **ftp** job will fail on each push (the **build** job and artifact still succeed). You can temporarily **disable** the workflow under **Actions** if you are not ready.
 
+**FTP: `ENOTFOUND` / “getaddrinfo ENOTFOUND”** — GitHub cannot resolve `HOSTINGER_FTP_HOST`. Fix the secret value:
+
+- Use **only the hostname** (e.g. `ftp.yourdomain.com` or whatever hPanel lists under **Files → FTP Accounts**).  
+- **Do not** include `ftp://`, `https://`, paths, or spaces.  
+- **No newline** at the end when pasting (re-save the secret if unsure).  
+- If hPanel shows an **IP address**, you can use that as the host.  
+- If it still fails, try changing `protocol` from `ftps-legacy` to `ftp` in [`.github/workflows/deploy-hostinger-ftp.yml`](.github/workflows/deploy-hostinger-ftp.yml) (some networks block implicit FTPS on 21).
+
+Hostinger’s reference: [How to use FTP](https://support.hostinger.com/en/articles/1583592-how-to-use-ftp).
+
 ### One-time server setup
 
 - **Database** — hPanel → **MySQL** → create database and user → **phpMyAdmin** → import [`sql/schema.sql`](sql/schema.sql).
