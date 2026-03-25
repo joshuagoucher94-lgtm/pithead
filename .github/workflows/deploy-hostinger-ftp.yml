@@ -92,7 +92,10 @@ jobs:
           port: 21
           protocol: ftp
           local-dir: ./deploy/
-          server-dir: ./public_html/
+          # Hostinger FTP logins usually land IN public_html already; ./public_html/ would nest files
+          # and the live site would keep showing the host default page. If your FTP root is above
+          # public_html, set server-dir to ./public_html/ instead.
+          server-dir: ./
           exclude: |
             **/_inc/config.local.php
             **/_inc/logs/**

@@ -27,7 +27,7 @@ On every push to **`main`** or **`master`** it builds that bundle, uploads **`pi
    | `HOSTINGER_FTP_USERNAME` | FTP username |
    | `HOSTINGER_FTP_PASSWORD` | FTP password |
 
-2. **Remote path** is set to **`public_html/`** in the workflow. If your account uses a different web root, edit `server-dir` in that YAML file.
+2. **Remote path** — the workflow uses **`server-dir: ./`** because Hostinger FTP accounts are usually rooted **already inside** `public_html`. If you previously used `./public_html/`, files may live in **`public_html/public_html/`** (move them up or redeploy after this fix). If your FTP home is **above** `public_html`, set `server-dir` to **`./public_html/`** instead. If `index.html` is already in the real doc root but the Hostinger placeholder still shows, delete **`default.php`** in File Manager so `index.html` can be the directory index.
 
 3. **FTPS vs FTP** — the workflow uses `protocol: ftp` and `port: 21`. If you need implicit/explicit FTPS per hPanel, change `protocol` in [`.github/workflows/deploy-hostinger-ftp.yml`](.github/workflows/deploy-hostinger-ftp.yml) (see [SamKirkland/FTP-Deploy-Action](https://github.com/SamKirkland/FTP-Deploy-Action)).
 
