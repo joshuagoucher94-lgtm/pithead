@@ -27,4 +27,7 @@ return [
         'base_url' => 'https://yourdomain.com',
         'currency' => 'gbp',
     ],
+    // Optional: long random string. While set, GET /api/health-db.php?key=THAT_STRING
+    // returns JSON (DB connect + products row count). Remove after debugging.
+    'health_check_key' => null,
 ];

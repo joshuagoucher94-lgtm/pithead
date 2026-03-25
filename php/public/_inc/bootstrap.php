@@ -24,6 +24,9 @@ if (!defined('PITHEAD_ENV')) {
 }
 
 $logDir = PITHEAD_INC . '/logs';
+if (!is_dir($logDir)) {
+    @mkdir($logDir, 0755, true);
+}
 if (is_dir($logDir) && is_writable($logDir)) {
     ini_set('log_errors', '1');
     ini_set('error_log', $logDir . '/php-errors.log');

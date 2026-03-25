@@ -51,6 +51,8 @@ Hostinger’s reference: [How to use FTP](https://support.hostinger.com/en/artic
 - **`config.local.php`** — on Hostinger, create `public_html/_inc/config.local.php` from [`php/public/_inc/config.example.php`](php/public/_inc/config.example.php). Set DB credentials, `app.base_url` to `https://your-domain.com`, Stripe keys. Never commit this file.
 - **Stripe webhook** — `https://your-domain.com/api/stripe-webhook.php`.
 
+**`/shop/` returns 500** — almost always database: wrong `db.host` / `db.name` / `db.user` / `db.pass`, or `schema.sql` not imported. Check **`public_html/_inc/logs/php-errors.log`** and hPanel **Advanced → Error log**. To see a clear JSON error without reading logs: add to `config.local.php` a long random `'health_check_key' => '…'`, deploy, open `https://your-domain.com/api/health-db.php?key=…`, then **remove** `health_check_key`.
+
 ### Manual zip only (no FTP)
 
 Run **Actions** → **Build site for Hostinger (artifact only)** → **Run workflow**, then download **pithead-public_html** and upload/extract into `public_html`. See [`.github/workflows/build-site.yml`](.github/workflows/build-site.yml).
