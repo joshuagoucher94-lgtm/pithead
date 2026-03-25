@@ -5,8 +5,8 @@
 #   HOSTINGER_FTP_USERNAME
 #   HOSTINGER_FTP_PASSWORD
 #
-# If the FTP step fails, open this file and try protocol "ftp" instead of ftps-legacy,
-# or the port shown in hPanel (still usually 21).
+# Hostinger shared FTP on port 21 is usually plain FTP (not implicit TLS). If you use
+# explicit FTPS in hPanel, try protocol "ftps" or "ftps-legacy" per SamKirkland/FTP-Deploy-Action docs.
 
 name: Deploy to Hostinger (FTP)
 
@@ -90,7 +90,7 @@ jobs:
           username: ${{ secrets.HOSTINGER_FTP_USERNAME }}
           password: ${{ secrets.HOSTINGER_FTP_PASSWORD }}
           port: 21
-          protocol: ftps-legacy
+          protocol: ftp
           local-dir: ./deploy/
           server-dir: ./public_html/
           exclude: |

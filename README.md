@@ -17,7 +17,7 @@ You can treat **GitHub as source of truth** and **Hostinger as where the site ru
 
 Workflow: [`.github/workflows/deploy-hostinger-ftp.yml`](.github/workflows/deploy-hostinger-ftp.yml)
 
-On every push to **`main`** or **`master`** it builds that bundle, uploads **`pithead-public_html`** as a workflow artifact (zip), then deploys the same files to Hostinger over **FTP** (FTPS on port 21).
+On every push to **`main`** or **`master`** it builds that bundle, uploads **`pithead-public_html`** as a workflow artifact (zip), then deploys the same files to Hostinger over **plain FTP** on port **21** (typical for shared hosting).
 
 1. **Repository secrets** (GitHub → **Settings** → **Secrets and variables** → **Actions**):
 
@@ -29,7 +29,7 @@ On every push to **`main`** or **`master`** it builds that bundle, uploads **`pi
 
 2. **Remote path** is set to **`public_html/`** in the workflow. If your account uses a different web root, edit `server-dir` in that YAML file.
 
-3. **FTPS vs FTP** — the workflow uses `protocol: ftps-legacy` and `port: 21`. If the job fails to connect, change `protocol` to `ftp` in [`.github/workflows/deploy-hostinger-ftp.yml`](.github/workflows/deploy-hostinger-ftp.yml) and push again (Hostinger’s docs vary by plan).
+3. **FTPS vs FTP** — the workflow uses `protocol: ftp` and `port: 21`. If you need implicit/explicit FTPS per hPanel, change `protocol` in [`.github/workflows/deploy-hostinger-ftp.yml`](.github/workflows/deploy-hostinger-ftp.yml) (see [SamKirkland/FTP-Deploy-Action](https://github.com/SamKirkland/FTP-Deploy-Action)).
 
 4. **Server-only files** are excluded from delete/sync rules: `_inc/config.local.php`, `_inc/logs/`, `uploads/`. Create **`public_html/_inc/config.local.php`** once on the server (see below); it will not be removed on later deploys.
 
@@ -41,7 +41,7 @@ On every push to **`main`** or **`master`** it builds that bundle, uploads **`pi
 - **Do not** include `ftp://`, `https://`, paths, or spaces.  
 - **No newline** at the end when pasting (re-save the secret if unsure).  
 - If hPanel shows an **IP address**, you can use that as the host.  
-- If it still fails, try changing `protocol` from `ftps-legacy` to `ftp` in [`.github/workflows/deploy-hostinger-ftp.yml`](.github/workflows/deploy-hostinger-ftp.yml) (some networks block implicit FTPS on 21).
+- **SSL “wrong version number”** on the FTP job means TLS was offered but the server speaks plain FTP — keep `protocol: ftp` (the default in this repo).
 
 Hostinger’s reference: [How to use FTP](https://support.hostinger.com/en/articles/1583592-how-to-use-ftp).
 
