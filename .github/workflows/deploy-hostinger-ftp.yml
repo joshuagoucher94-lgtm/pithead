@@ -31,8 +31,13 @@ jobs:
           cache: npm
           cache-dependency-path: astro/package-lock.json
 
+      # setup-node cache restores nothing useful without an install — astro must be in node_modules
+      - name: Install dependencies
+        working-directory: astro
+        run: npm ci
+
       - name: Build deploy bundle
-        run: chmod +x scripts/build-deploy.sh && ./scripts/build-deploy.sh
+        run: sh scripts/build-deploy.sh
 
       - uses: actions/upload-artifact@v4
         with:

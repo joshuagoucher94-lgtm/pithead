@@ -18,8 +18,12 @@ jobs:
           cache: npm
           cache-dependency-path: astro/package-lock.json
 
-      - name: Install Astro deps & build deploy bundle
-        run: chmod +x scripts/build-deploy.sh && ./scripts/build-deploy.sh
+      - name: Install dependencies
+        working-directory: astro
+        run: npm ci
+
+      - name: Build deploy bundle
+        run: sh scripts/build-deploy.sh
 
       - uses: actions/upload-artifact@v4
         with:
