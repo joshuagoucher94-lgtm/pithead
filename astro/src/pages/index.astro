@@ -1,135 +1,382 @@
 ---
 import LandingLayout from '../layouts/LandingLayout.astro';
+
+type LinkRow =
+  | { kind: 'dialog'; id: string; label: string }
+  | { kind: 'link'; href: string; label: string; external?: boolean };
+
+const linkRows: LinkRow[] = [
+  { kind: 'dialog', id: 'pithead-menu', label: 'Menu' },
+  { kind: 'link', href: 'https://instagram.com/', label: 'Instagram', external: true },
+  { kind: 'dialog', id: 'pithead-wholesale', label: 'Wholesale enquiry' },
+];
+
+const whoWeAre =
+  'Independent roastworks rooted in the South Wales valleys. We build espresso and cacao for real service—dense milk drinks, melted chocolate done properly, and bar discipline without the lifestyle gloss. Roasted and run for people who mark work, not decorate it.';
 ---
 
 <LandingLayout
   title="PITHEAD ROASTWORKS — Fuel for the shift"
-  description="Marks work. Does not decorate it. Engineered espresso, cacao & chocolate — kiosk menu."
+  description="Pithead Roastworks — espresso, cacao & chocolate. 81-82 High St, Pontypridd. hello@pithead.co.uk"
 >
-  <div
-    class="relative flex h-dvh max-h-dvh min-h-0 flex-col overflow-hidden bg-coal"
-  >
-    <div aria-hidden="true" class="pointer-events-none absolute inset-0 z-0">
+  <div class="relative min-h-dvh">
+    <div aria-hidden="true" class="pointer-events-none fixed inset-0 z-0">
       <img
         src="/images/espresso-pour.jpg"
         alt=""
-        class="h-full w-full object-cover opacity-90"
+        class="h-full w-full scale-105 object-cover opacity-[0.14]"
         width="1920"
         height="1280"
         loading="eager"
         fetchpriority="high"
       />
-      <div class="absolute inset-0 bg-gradient-to-b from-coal/88 via-coal/80 to-coal/92"></div>
+      <div
+        class="absolute inset-0 bg-gradient-to-b from-coal via-coal to-[#0a0a0a]"
+      ></div>
+      <div
+        class="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,rgba(122,31,31,0.25),transparent)]"
+      >
+      </div>
     </div>
 
-    <div class="relative z-10 flex min-h-0 flex-1 flex-col">
+    <div class="relative z-10 mx-auto flex min-h-dvh max-w-md flex-col px-5 pb-10 pt-10 sm:px-6 sm:pt-14">
       <h1 class="sr-only">PITHEAD ROASTWORKS — Fuel for the shift</h1>
 
-      <header
-        class="flex shrink-0 items-center gap-3 border-b border-black/25 bg-imperial px-3 py-2 shadow-md md:gap-4 md:px-5 md:py-3"
-      >
+      <header class="flex flex-col items-center text-center">
         <a
           href="/"
-          class="shrink-0 rounded-md bg-white p-1.5 shadow-sm ring-1 ring-black/10 md:p-2"
+          class="group rounded-2xl bg-white p-4 shadow-[0_20px_50px_-12px_rgba(0,0,0,0.45)] ring-1 ring-black/10 transition hover:shadow-[0_25px_60px_-12px_rgba(0,0,0,0.55)]"
           aria-label="Pithead Roastworks home"
         >
           <img
             src="/images/pithead-logo-stacked.png"
             alt="Pithead Roastworks"
-            class="h-9 w-auto md:h-11"
+            class="mx-auto h-[4.5rem] w-auto sm:h-[5.25rem]"
             width="180"
             height="80"
             loading="eager"
           />
         </a>
         <p
-          class="hidden min-w-0 max-w-[14rem] text-[10px] font-medium uppercase leading-tight tracking-wide text-offwhite/90 lg:block xl:max-w-xs"
+          class="mt-5 max-w-[16rem] text-[11px] font-semibold uppercase leading-relaxed tracking-[0.28em] text-stone sm:max-w-none sm:text-xs sm:tracking-[0.32em]"
         >
-          Marks work. Does not decorate it.
+          Pithead Roastworks
         </p>
+        <p class="mt-4 max-w-sm text-sm font-normal leading-relaxed text-offwhite/70">
+          {whoWeAre}
+        </p>
+        <div class="mt-6 h-px w-10 bg-imperial/50" aria-hidden="true"></div>
       </header>
 
-      <main
-        class="flex min-h-0 flex-1 flex-col gap-2 p-2 md:flex-row md:items-start md:gap-3 md:p-3 lg:gap-4 lg:p-4"
-      >
-        <aside class="flex w-full shrink-0 justify-center md:w-auto md:justify-start">
-          <div
-            class="w-fit max-w-full space-y-2 rounded-sm border border-coal/20 bg-offwhite p-3 text-coal shadow-lg ring-1 ring-black/5 md:max-w-[20rem] md:p-4"
-          >
-            <div>
-              <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-imperial md:text-xs">
-                Who we are
-              </p>
-              <p class="mt-1 text-xs font-normal leading-snug text-coal/90 md:text-sm">
-                Espresso, cacao, and real melted chocolate — roasted for daily use. Marks work. Does not
-                decorate it.
-              </p>
-            </div>
-            <div class="border-t border-coal/10 pt-2 md:pt-3">
-              <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-imperial md:text-xs">
-                Visit
-              </p>
-              <p class="mt-1 text-xs text-coal/80 md:text-sm">Contact for site address.</p>
-            </div>
-            <div class="border-t border-coal/10 pt-2 md:pt-3">
-              <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-imperial md:text-xs">
-                Contact
-              </p>
-              <ul class="mt-1 space-y-0.5 text-xs text-coal/85 md:text-sm">
-                <li>
-                  <a href="/contact.php" class="font-medium text-imperial hover:underline">Contact form</a>
-                </li>
-                <li>
-                  <a
-                    href="https://instagram.com/"
-                    class="font-medium text-imperial hover:underline"
-                    rel="noopener noreferrer">Instagram</a
-                  >
-                </li>
-              </ul>
-            </div>
-          </div>
-        </aside>
+      <nav class="mt-8 flex w-full flex-col gap-3" aria-label="Links">
+        {
+          linkRows.map((row) =>
+            row.kind === 'dialog' ? (
+              <button
+                type="button"
+                data-open-dialog={row.id}
+                class="flex w-full cursor-pointer items-center justify-center rounded-2xl border border-offwhite/12 bg-offwhite/[0.07] px-5 py-3.5 text-center text-sm font-semibold uppercase tracking-[0.12em] text-offwhite shadow-sm backdrop-blur-md transition hover:border-imperial/50 hover:bg-imperial hover:text-offwhite hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-imperial focus-visible:ring-offset-2 focus-visible:ring-offset-coal active:scale-[0.99]"
+              >
+                {row.label}
+              </button>
+            ) : (
+              <a
+                href={row.href}
+                class="flex w-full items-center justify-center rounded-2xl border border-offwhite/12 bg-offwhite/[0.07] px-5 py-3.5 text-center text-sm font-semibold uppercase tracking-[0.12em] text-offwhite shadow-sm backdrop-blur-md transition hover:border-imperial/50 hover:bg-imperial hover:text-offwhite hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-imperial focus-visible:ring-offset-2 focus-visible:ring-offset-coal active:scale-[0.99]"
+                {...(row.external
+                  ? { target: '_blank', rel: 'noopener noreferrer' }
+                  : {})}
+              >
+                {row.label}
+              </a>
+            ),
+          )
+        }
+      </nav>
 
-        <div
-          class="min-h-0 min-w-0 flex-1 overflow-y-auto overflow-x-hidden rounded-sm border border-coal/20 shadow-lg ring-1 ring-black/10"
-        >
-          <div
-            class="flex min-h-full min-w-0 justify-center p-2 md:p-3 lg:min-h-0 lg:h-full lg:items-start lg:p-4"
-          >
-            <div
-              class="w-fit max-w-full rounded-sm border border-coal/15 bg-offwhite p-1.5 shadow-md ring-1 ring-black/5 md:p-2"
-            >
-              <img
-                src="/images/pithead-kiosk-menu.png"
-                alt="Pithead Roastworks kiosk menu: coffee, cacao, melted chocolate, classic tea, add-ons, the Pit Mocha, and the Shiver Shake with prices."
-                class="block h-auto max-w-full"
-                width="863"
-                height="954"
-                loading="eager"
-                decoding="async"
-              />
-            </div>
-          </div>
-        </div>
-      </main>
-
-      <p
-        class="pointer-events-auto absolute bottom-0.5 right-1 z-20 max-w-[14rem] text-end text-[8px] leading-tight text-offwhite/40 md:bottom-1 md:right-3 md:max-w-none md:text-[9px]"
+      <div
+        class="mt-8 rounded-2xl border border-offwhite/10 bg-offwhite/[0.05] px-4 py-4 text-center backdrop-blur-sm"
       >
-        Photo by{' '}
+        <p class="text-[10px] font-bold uppercase tracking-[0.25em] text-stone">Visit</p>
+        <p class="mt-2 text-sm font-medium leading-snug text-offwhite/85">
+          81-82 High St<br />
+          Pontypridd CF37 1QN<br />
+          United Kingdom
+        </p>
         <a
-          href="https://unsplash.com/@omikron?utm_source=pithead&utm_medium=referral"
-          class="underline decoration-offwhite/25 hover:text-offwhite/55"
-          rel="noopener noreferrer">Valentin</a
+          href="mailto:hello@pithead.co.uk"
+          class="mt-3 inline-block text-sm font-semibold text-imperial transition hover:text-offwhite"
+          >hello@pithead.co.uk</a
         >
-        {' '}on{' '}
-        <a
-          href="https://unsplash.com/photos/J2cfNw4E0yc?utm_source=pithead&utm_medium=referral"
-          class="underline decoration-offwhite/25 hover:text-offwhite/55"
-          rel="noopener noreferrer">Unsplash</a
-        >
-      </p>
+      </div>
+
+      <footer class="mt-10 text-center">
+        <p class="text-[10px] leading-relaxed text-offwhite/35">
+          Photo by{' '}
+          <a
+            href="https://unsplash.com/@omikron?utm_source=pithead&utm_medium=referral"
+            class="underline decoration-offwhite/20 underline-offset-2 hover:text-offwhite/55"
+            rel="noopener noreferrer">Valentin</a
+          >
+          {' '}on{' '}
+          <a
+            href="https://unsplash.com/photos/J2cfNw4E0yc?utm_source=pithead&utm_medium=referral"
+            class="underline decoration-offwhite/20 underline-offset-2 hover:text-offwhite/55"
+            rel="noopener noreferrer">Unsplash</a
+          >
+        </p>
+      </footer>
     </div>
   </div>
+
+  <!-- Menu lightbox -->
+  <dialog
+    id="pithead-menu"
+    class="w-[calc(100vw-1.5rem)] max-w-lg border-0 bg-transparent p-0 text-offwhite [&::backdrop]:bg-coal/80 [&::backdrop]:backdrop-blur-md sm:max-w-xl"
+    aria-labelledby="menu-dialog-title"
+  >
+    <div
+      class="max-h-[85vh] overflow-hidden rounded-2xl border border-offwhite/15 bg-coal shadow-2xl ring-1 ring-black/40"
+    >
+      <div
+        class="flex items-center justify-between border-b border-offwhite/10 bg-coal/90 px-4 py-3 backdrop-blur-sm"
+      >
+        <h2 id="menu-dialog-title" class="text-xs font-bold uppercase tracking-[0.2em] text-stone">
+          Kiosk menu
+        </h2>
+        <button
+          type="button"
+          class="rounded-lg px-3 py-1.5 text-xs font-bold uppercase tracking-widest text-offwhite/80 transition hover:bg-offwhite/10 hover:text-offwhite focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-imperial"
+          data-close-dialog
+          aria-label="Close menu"
+        >
+          Close
+        </button>
+      </div>
+      <div class="max-h-[calc(85vh-3.25rem)] overflow-y-auto bg-offwhite p-2 sm:p-3">
+        <img
+          src="/images/pithead-kiosk-menu.png"
+          alt="Pithead Roastworks kiosk menu with coffee, cacao, chocolate, add-ons, Pit Mocha and Shiver Shake."
+          class="block h-auto w-full"
+          width="863"
+          height="954"
+          loading="lazy"
+          decoding="async"
+        />
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Wholesale lightbox -->
+  <dialog
+    id="pithead-wholesale"
+    class="w-[calc(100vw-1.5rem)] max-w-md border-0 bg-transparent p-0 text-offwhite [&::backdrop]:bg-coal/80 [&::backdrop]:backdrop-blur-md"
+    aria-labelledby="wholesale-dialog-title"
+  >
+    <div
+      class="max-h-[90vh] overflow-hidden rounded-2xl border border-offwhite/15 bg-coal shadow-2xl ring-1 ring-black/40"
+    >
+      <div
+        class="flex items-center justify-between border-b border-offwhite/10 bg-coal/90 px-4 py-3 backdrop-blur-sm"
+      >
+        <h2 id="wholesale-dialog-title" class="text-xs font-bold uppercase tracking-[0.2em] text-stone">
+          Wholesale enquiry
+        </h2>
+        <button
+          type="button"
+          class="rounded-lg px-3 py-1.5 text-xs font-bold uppercase tracking-widest text-offwhite/80 transition hover:bg-offwhite/10 hover:text-offwhite focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-imperial"
+          data-close-dialog
+          aria-label="Close form"
+        >
+          Close
+        </button>
+      </div>
+      <div class="max-h-[calc(90vh-3.25rem)] overflow-y-auto px-4 py-5 sm:px-5">
+        <p class="text-sm leading-relaxed text-offwhite/65">
+          Tell us about your business and what you need. We will reply by email.
+        </p>
+        <p id="wholesale-form-error" class="mt-3 hidden text-sm text-imperial" role="alert"></p>
+        <div id="wholesale-form-success" class="mt-4 hidden rounded-xl border border-stone/30 bg-stone/10 px-4 py-4 text-sm text-offwhite/90">
+          Received — we will get back to you shortly.
+        </div>
+        <form id="wholesale-form" class="mt-5 space-y-4" novalidate>
+          <input type="hidden" name="csrf" id="wholesale-csrf" value="" />
+          <label class="block text-[10px] font-bold uppercase tracking-widest text-stone">
+            Business name
+            <input
+              name="business_name"
+              required
+              autocomplete="organization"
+              class="mt-1.5 w-full rounded-xl border border-offwhite/20 bg-offwhite/[0.06] px-3 py-2.5 text-sm text-offwhite placeholder:text-offwhite/35 focus:border-imperial/60 focus:outline-none focus:ring-1 focus:ring-imperial"
+            />
+          </label>
+          <label class="block text-[10px] font-bold uppercase tracking-widest text-stone">
+            Contact name
+            <input
+              name="contact_name"
+              required
+              autocomplete="name"
+              class="mt-1.5 w-full rounded-xl border border-offwhite/20 bg-offwhite/[0.06] px-3 py-2.5 text-sm text-offwhite placeholder:text-offwhite/35 focus:border-imperial/60 focus:outline-none focus:ring-1 focus:ring-imperial"
+            />
+          </label>
+          <label class="block text-[10px] font-bold uppercase tracking-widest text-stone">
+            Email
+            <input
+              name="email"
+              type="email"
+              required
+              autocomplete="email"
+              class="mt-1.5 w-full rounded-xl border border-offwhite/20 bg-offwhite/[0.06] px-3 py-2.5 text-sm text-offwhite placeholder:text-offwhite/35 focus:border-imperial/60 focus:outline-none focus:ring-1 focus:ring-imperial"
+            />
+          </label>
+          <label class="block text-[10px] font-bold uppercase tracking-widest text-stone">
+            Phone <span class="font-normal text-offwhite/40">(optional)</span>
+            <input
+              name="phone"
+              type="tel"
+              autocomplete="tel"
+              class="mt-1.5 w-full rounded-xl border border-offwhite/20 bg-offwhite/[0.06] px-3 py-2.5 text-sm text-offwhite placeholder:text-offwhite/35 focus:border-imperial/60 focus:outline-none focus:ring-1 focus:ring-imperial"
+            />
+          </label>
+          <label class="block text-[10px] font-bold uppercase tracking-widest text-stone">
+            Message
+            <textarea
+              name="message"
+              required
+              rows="4"
+              class="mt-1.5 w-full resize-y rounded-xl border border-offwhite/20 bg-offwhite/[0.06] px-3 py-2.5 text-sm text-offwhite placeholder:text-offwhite/35 focus:border-imperial/60 focus:outline-none focus:ring-1 focus:ring-imperial"
+            ></textarea>
+          </label>
+          <button
+            type="submit"
+            class="w-full rounded-2xl border-2 border-imperial bg-imperial py-3.5 text-xs font-bold uppercase tracking-[0.15em] text-offwhite transition hover:bg-coal hover:text-offwhite focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-imperial focus-visible:ring-offset-2 focus-visible:ring-offset-coal"
+          >
+            Submit enquiry
+          </button>
+        </form>
+      </div>
+    </div>
+  </dialog>
+
+  <script is:inline>
+    (function () {
+      function qs(sel, root) {
+        return (root || document).querySelector(sel);
+      }
+      function qsa(sel, root) {
+        return Array.prototype.slice.call((root || document).querySelectorAll(sel));
+      }
+
+      qsa('[data-open-dialog]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var id = btn.getAttribute('data-open-dialog');
+          var d = id && document.getElementById(id);
+          if (d && typeof d.showModal === 'function') {
+            d.showModal();
+            if (id === 'pithead-wholesale') fetchCsrf();
+          }
+        });
+      });
+
+      qsa('[data-close-dialog]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var dialog = btn.closest('dialog');
+          if (dialog && typeof dialog.close === 'function') dialog.close();
+        });
+      });
+
+      qsa('dialog').forEach(function (d) {
+        d.addEventListener('click', function (e) {
+          if (e.target === d) d.close();
+        });
+      });
+
+      function setCsrf(token) {
+        var input = qs('#wholesale-csrf');
+        if (input) input.value = token || '';
+      }
+
+      function fetchCsrf() {
+        fetch('/api/csrf-token.php', { credentials: 'same-origin' })
+          .then(function (r) {
+            return r.json();
+          })
+          .then(function (data) {
+            if (data && data.csrf) setCsrf(data.csrf);
+          })
+          .catch(function () {});
+      }
+
+      fetchCsrf();
+
+      var wholesaleDialog = qs('#pithead-wholesale');
+
+      var form = qs('#wholesale-form');
+      var errEl = qs('#wholesale-form-error');
+      var okEl = qs('#wholesale-form-success');
+
+      if (form) {
+        form.addEventListener('submit', function (e) {
+          e.preventDefault();
+          if (errEl) {
+            errEl.textContent = '';
+            errEl.classList.add('hidden');
+          }
+          if (okEl) okEl.classList.add('hidden');
+
+          var fd = new FormData(form);
+          fetch('/api/wholesale-enquiry.php', {
+            method: 'POST',
+            body: fd,
+            credentials: 'same-origin',
+            headers: { Accept: 'application/json' },
+          })
+            .then(function (r) {
+              return r.text().then(function (t) {
+                var j = {};
+                try {
+                  j = t ? JSON.parse(t) : {};
+                } catch (e) {}
+                return { ok: r.ok, status: r.status, body: j };
+              });
+            })
+            .then(function (res) {
+              if (res.body && res.body.ok) {
+                form.reset();
+                setCsrf('');
+                fetchCsrf();
+                if (okEl) okEl.classList.remove('hidden');
+                form.classList.add('hidden');
+              } else {
+                var msg =
+                  (res.body && res.body.error) ||
+                  (res.status >= 500 ? 'Something went wrong. Try again later.' : 'Could not send.');
+                if (errEl) {
+                  errEl.textContent = msg;
+                  errEl.classList.remove('hidden');
+                }
+                fetchCsrf();
+              }
+            })
+            .catch(function () {
+              if (errEl) {
+                errEl.textContent = 'Network error. Check your connection and try again.';
+                errEl.classList.remove('hidden');
+              }
+            });
+        });
+      }
+
+      wholesaleDialog &&
+        wholesaleDialog.addEventListener('close', function () {
+          var f = qs('#wholesale-form');
+          if (f) f.classList.remove('hidden');
+          if (okEl) okEl.classList.add('hidden');
+          if (errEl) {
+            errEl.textContent = '';
+            errEl.classList.add('hidden');
+          }
+        });
+    })();
+  </script>
 </LandingLayout>
