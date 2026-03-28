@@ -42,3 +42,46 @@ function pithead_setting(PDO $pdo, string $key, ?string $default = null): ?strin
     }
     return $row['value'] !== null ? (string) $row['value'] : $default;
 }
+
+/**
+ * Notify hello@pithead.co.uk when a wholesale enquiry is stored.
+ * Uses PHP mail(); Reply-To is the submitter. Returns false if mail() fails (DB row still saved).
+ */
+function pithead_notify_wholesale_enquiry_email(
+    string $business,
+    string $contact,
+    string $email,
+    ?string $phone,
+    string $message
+): bool {
+    $to = 'hello@pithead.co.uk';
+    $subject = 'New wholesale enquiry — ' . $business;
+    if (function_exists('mb_encode_mimeheader')) {
+        $subject = mb_encode_mimeheader($subject, 'UTF-8', 'B', "\r\n");
+    }
+
+    $phoneLine = ($phone !== null && $phone !== '') ? $phone : '(not provided)';
+    $body = "A new wholesale enquiry was submitted on pithead.co.uk.\r\n\r\n"
+        . "Business: {$business}\r\n"
+        . "Contact name: {$contact}\r\n"
+        . "Email: {$email}\r\n"
+        . "Phone: {$phoneLine}\r\n\r\n"
+        . "Message:\r\n{$message}\r\n";
+
+    $from = 'Pithead Roastworks <hello@pithead.co.uk>';
+    $headers = [
+        'MIME-Version: 1.0',
+        'Content-Type: text/plain; charset=UTF-8',
+        'From: ' . $from,
+        'Reply-To: ' . $email,
+        'X-Mailer: PHP/' . PHP_VERSION,
+    ];
+    $headerStr = implode("\r\n", $headers);
+    $envelopeFrom = '-fhello@pithead.co.uk';
+    $ok = @mail($to, $subject, $body, $headerStr, $envelopeFrom);
+    if (!$ok) {
+        error_log('pithead: mail() failed sending wholesale enquiry notify to hello@pithead.co.uk');
+    }
+
+    return $ok;
+}

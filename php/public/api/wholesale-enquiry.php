@@ -46,6 +46,13 @@ try {
         $phone !== '' ? $phone : null,
         $message,
     ]);
+    pithead_notify_wholesale_enquiry_email(
+        $business,
+        $contact,
+        $email,
+        $phone !== '' ? $phone : null,
+        $message
+    );
 } catch (Throwable $e) {
     http_response_code(500);
     echo json_encode(['ok' => false, 'error' => 'Could not save your enquiry. Try again or email us.'], JSON_UNESCAPED_SLASHES);

@@ -32,6 +32,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $phone !== '' ? $phone : null,
                     $message,
                 ]);
+                pithead_notify_wholesale_enquiry_email(
+                    $business,
+                    $contact,
+                    $email,
+                    $phone !== '' ? $phone : null,
+                    $message
+                );
                 $ok = true;
             } catch (Throwable $e) {
                 $errors[] = 'Could not save enquiry.';

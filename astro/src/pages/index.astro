@@ -5,8 +5,8 @@ type LinkRow =
   | { kind: 'dialog'; id: string; label: string }
   | { kind: 'link'; href: string; label: string; external?: boolean };
 
+/** Menu is rendered separately so the primary CTA is obvious in dev and production. */
 const linkRows: LinkRow[] = [
-  { kind: 'dialog', id: 'pithead-menu', label: 'Menu' },
   { kind: 'link', href: 'https://instagram.com/', label: 'Instagram', external: true },
   { kind: 'dialog', id: 'pithead-wholesale', label: 'Wholesale enquiry' },
 ];
@@ -69,6 +69,13 @@ const whoWeAre =
       </header>
 
       <nav class="mt-8 flex w-full flex-col gap-3" aria-label="Links">
+        <button
+          type="button"
+          data-open-dialog="pithead-menu"
+          class="flex w-full cursor-pointer items-center justify-center rounded-2xl border-2 border-imperial bg-imperial px-5 py-3.5 text-center text-sm font-semibold uppercase tracking-[0.12em] text-offwhite shadow-[0_12px_40px_-10px_rgba(122,31,31,0.75)] ring-2 ring-offwhite/20 transition hover:border-offwhite/50 hover:bg-[#8f2828] hover:shadow-[0_16px_48px_-10px_rgba(122,31,31,0.85)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-imperial focus-visible:ring-offset-2 focus-visible:ring-offset-coal active:scale-[0.99]"
+        >
+          Menu
+        </button>
         {
           linkRows.map((row) =>
             row.kind === 'dialog' ? (
