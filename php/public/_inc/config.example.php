@@ -24,7 +24,8 @@ return [
         'webhook_secret' => 'whsec_...',
     ],
     'app' => [
-        'base_url' => 'https://yourdomain.com',
+        // Production: https://pithead.co.uk — use your local URL (e.g. http://127.0.0.1:8080) when developing PHP locally.
+        'base_url' => 'https://pithead.co.uk',
         'currency' => 'gbp',
     ],
     // Optional: long random string. While set, GET /api/health-db.php?key=THAT_STRING

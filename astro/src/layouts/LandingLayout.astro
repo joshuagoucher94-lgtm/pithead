@@ -1,14 +1,15 @@
 ---
 import '../styles/global.css';
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
 
 interface Props {
   title: string;
   description?: string;
 }
 
-const { title, description = 'PITHEAD ROASTWORKS — Engineered espresso. Fuel for the shift.' } = Astro.props;
+const {
+  title,
+  description = 'PITHEAD ROASTWORKS — Engineered espresso. Fuel for the shift.',
+} = Astro.props;
 
 const canonicalHref =
   import.meta.env.PROD && Astro.site
@@ -17,11 +18,12 @@ const canonicalHref =
 ---
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="h-full overflow-hidden">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
+    <meta name="robots" content="index, follow" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -31,11 +33,7 @@ const canonicalHref =
     <title>{title}</title>
     {canonicalHref && <link rel="canonical" href={canonicalHref} />}
   </head>
-  <body class="min-h-screen flex flex-col">
-    <Header />
-    <main class="flex-1">
-      <slot />
-    </main>
-    <Footer />
+  <body class="h-full overflow-hidden bg-coal font-sans text-offwhite antialiased">
+    <slot />
   </body>
 </html>

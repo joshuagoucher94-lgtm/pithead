@@ -2,6 +2,8 @@
 
 Production-oriented static marketing site (Astro + Tailwind) with PHP 8 + MySQL commerce for **Hostinger shared hosting** (no Node on the server).
 
+**Production URL:** [https://pithead.co.uk](https://pithead.co.uk)
+
 ## Stack
 
 - **Frontend:** Astro (static `output`), Tailwind, Alpine.js on the homepage featured grid only
@@ -23,7 +25,7 @@ On every push to **`main`** or **`master`** it builds that bundle, uploads **`pi
 
    | Secret | Value |
    |--------|--------|
-   | `HOSTINGER_FTP_HOST` | FTP hostname from hPanel (**Files** → **FTP Accounts**), often `ftp.yourdomain.com` |
+   | `HOSTINGER_FTP_HOST` | FTP hostname from hPanel (**Files** → **FTP Accounts**), e.g. `ftp.pithead.co.uk` (use whatever hPanel lists) |
    | `HOSTINGER_FTP_USERNAME` | FTP username |
    | `HOSTINGER_FTP_PASSWORD` | FTP password |
 
@@ -37,7 +39,7 @@ On every push to **`main`** or **`master`** it builds that bundle, uploads **`pi
 
 **FTP: `ENOTFOUND` / “getaddrinfo ENOTFOUND”** — GitHub cannot resolve `HOSTINGER_FTP_HOST`. Fix the secret value:
 
-- Use **only the hostname** (e.g. `ftp.yourdomain.com` or whatever hPanel lists under **Files → FTP Accounts**).  
+- Use **only the hostname** (e.g. `ftp.pithead.co.uk` or whatever hPanel lists under **Files → FTP Accounts**).  
 - **Do not** include `ftp://`, `https://`, paths, or spaces.  
 - **No newline** at the end when pasting (re-save the secret if unsure).  
 - If hPanel shows an **IP address**, you can use that as the host.  
@@ -48,10 +50,10 @@ Hostinger’s reference: [How to use FTP](https://support.hostinger.com/en/artic
 ### One-time server setup
 
 - **Database** — hPanel → **MySQL** → create database and user → **phpMyAdmin** → import [`sql/schema.sql`](sql/schema.sql).
-- **`config.local.php`** — on Hostinger, create `public_html/_inc/config.local.php` from [`php/public/_inc/config.example.php`](php/public/_inc/config.example.php). Set DB credentials, `app.base_url` to `https://your-domain.com`, Stripe keys. Never commit this file.
-- **Stripe webhook** — `https://your-domain.com/api/stripe-webhook.php`.
+- **`config.local.php`** — on Hostinger, create `public_html/_inc/config.local.php` from [`php/public/_inc/config.example.php`](php/public/_inc/config.example.php). Set DB credentials, `app.base_url` to `https://pithead.co.uk`, Stripe keys. Never commit this file.
+- **Stripe webhook** — `https://pithead.co.uk/api/stripe-webhook.php`.
 
-**`/shop/` returns 500** — almost always database: wrong `db.host` / `db.name` / `db.user` / `db.pass`, or `schema.sql` not imported. Check **`public_html/_inc/logs/php-errors.log`** and hPanel **Advanced → Error log**. To see a clear JSON error without reading logs: add to `config.local.php` a long random `'health_check_key' => '…'`, deploy, open `https://your-domain.com/api/health-db.php?key=…`, then **remove** `health_check_key`.
+**`/shop/` returns 500** — almost always database: wrong `db.host` / `db.name` / `db.user` / `db.pass`, or `schema.sql` not imported. Check **`public_html/_inc/logs/php-errors.log`** and hPanel **Advanced → Error log**. To see a clear JSON error without reading logs: add to `config.local.php` a long random `'health_check_key' => '…'`, deploy, open `https://pithead.co.uk/api/health-db.php?key=…`, then **remove** `health_check_key`.
 
 ### Manual zip only (no FTP)
 
@@ -150,10 +152,12 @@ Upload **everything inside** `deploy/` to `public_html/`:
 
 The `_inc/` directory holds config, auth, Stripe SDK, and libraries. Apache should deny direct HTTP access (`.htaccess` with `Require all denied` is included).
 
+**Shop pre-launch:** [`php/public/.htaccess`](php/public/.htaccess) sends **301** from every `/shop/…` URL to `/`. **`/api/*` is unchanged** (cart APIs, Stripe, webhooks, health checks). To turn the storefront back on, delete that `RewriteRule ^shop(/.*)?$` line and redeploy; for local `php -S`, remove the matching block in [`scripts/dev-router.php`](scripts/dev-router.php).
+
 ## Stripe
 
 1. **Keys** in `config.local.php`: `stripe.secret_key`, `stripe.publishable_key`, `stripe.webhook_secret`.
-2. **Webhook endpoint:** `https://your-domain.com/api/stripe-webhook.php`
+2. **Webhook endpoint:** `https://pithead.co.uk/api/stripe-webhook.php`
 3. Listen for at least: `checkout.session.completed`, `checkout.session.async_payment_failed`, `checkout.session.expired` (optional but supported).
 
 Test locally with [Stripe CLI](https://stripe.com/docs/stripe-cli):

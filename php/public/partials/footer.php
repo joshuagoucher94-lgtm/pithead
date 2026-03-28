@@ -3,19 +3,11 @@ declare(strict_types=1);
 $year = (int) date('Y');
 ?>
 <footer class="border-t border-offwhite/20 bg-coal">
-  <div class="mx-auto grid max-w-7xl gap-10 px-4 py-16 md:grid-cols-2 md:px-8 lg:grid-cols-4">
+  <div class="mx-auto grid max-w-7xl gap-10 px-4 py-16 md:grid-cols-2 md:px-8 lg:grid-cols-3">
     <div>
       <p class="text-xs font-bold uppercase tracking-widest text-stone">Brand</p>
       <p class="mt-2 text-lg font-bold tracking-tight">PITHEAD ROASTWORKS</p>
       <p class="mt-2 max-w-xs text-sm text-offwhite/70">Marks work. Does not decorate it.</p>
-    </div>
-    <div>
-      <p class="text-xs font-bold uppercase tracking-widest text-stone">Navigate</p>
-      <ul class="mt-4 space-y-2 text-sm font-semibold uppercase tracking-tight">
-        <li><a href="/shop/" class="hover:text-imperial">Shop</a></li>
-        <li><a href="/wholesale/" class="hover:text-imperial">Wholesale</a></li>
-        <li><a href="/contact.php" class="hover:text-imperial">Contact</a></li>
-      </ul>
     </div>
     <div>
       <p class="text-xs font-bold uppercase tracking-widest text-stone">Social</p>

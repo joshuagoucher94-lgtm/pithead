@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+
+# Legacy marketing routes (301 to /); do not index stale URLs.
+Disallow: /about/
+Disallow: /cacao/
+Disallow: /drinks/
+Disallow: /wholesale/
+
+# Shop hidden pre-launch (301 to /).
+Disallow: /shop/

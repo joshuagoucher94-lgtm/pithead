@@ -11,7 +11,12 @@ export default {
         coal: '#111111',
         offwhite: '#F4F2ED',
         imperial: '#7A1F1F',
-        stone: '#D88CD1',
+        /** Brand pack — cool grey for panels / secondary surfaces */
+        stone: '#D8DCD1',
+        /** Menu print — sand panels & add-on band */
+        sand: '#E8E4DC',
+        /** Muted gold/bronze — add-ons & Shiver Shake titling */
+        bronze: '#8F734A',
       },
       fontFamily: {
         sans: [

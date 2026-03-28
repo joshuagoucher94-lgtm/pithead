@@ -1,0 +1,27 @@
+---
+/**
+ * Non-landing marketing URLs: noindex + immediate redirect to /. Used for legacy paths
+ * that may still be linked; Apache should also 301 these via php/public/.htaccess.
+ */
+const home = Astro.site ? new URL('/', Astro.site).href : '/';
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="canonical" href={home} />
+    <meta http-equiv="refresh" content="0;url=/" />
+    <title>PITHEAD ROASTWORKS</title>
+    <script is:inline>
+      location.replace('/');
+    </script>
+  </head>
+  <body class="bg-coal p-6 font-sans text-offwhite antialiased">
+    <p class="text-sm">
+      <a href="/" class="text-imperial underline hover:no-underline">Continue to home</a>
+    </p>
+  </body>
+</html>
