@@ -64,7 +64,7 @@ pithead_layout_start(['title' => 'Order — PITHEAD ROASTWORKS', 'main_class' =>
       <?php endif; ?>
     </p>
     <p class="mt-4 text-sm text-offwhite/60">
-      <?= $status === 'paid' ? 'Confirmed. Confirmation email may follow from your mail server configuration.' : 'If payment is processing, status will update via webhook.' ?>
+      <?= $status === 'paid' ? 'Confirmed. You should receive a receipt from Stripe and a short order summary from us by email.' : 'If payment is processing, status will update via webhook.' ?>
     </p>
   <?php endif; ?>
   <a href="/shop/" class="mt-10 inline-block border-2 border-offwhite px-6 py-3 text-xs font-bold uppercase tracking-widest hover:border-imperial">Back to shop</a>

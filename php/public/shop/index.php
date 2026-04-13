@@ -16,7 +16,9 @@ pithead_layout_start(['title' => 'Shop — PITHEAD ROASTWORKS', 'main_class' => 
 ?>
 <div class="mx-auto max-w-7xl px-4 md:px-8">
   <h1 class="text-4xl font-bold uppercase tracking-tight md:text-5xl">Shop</h1>
-  <p class="mt-4 max-w-xl text-sm font-medium text-offwhite/70">Retail line. Prices from database.</p>
+  <p class="mt-4 max-w-xl text-sm font-medium text-offwhite/70">
+    Roasted beans to take home. The price shown includes UK postage — we will confirm dispatch by email.
+  </p>
   <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
     <?php foreach ($products as $p) :
         $href = '/shop/' . rawurlencode((string) $p['slug']);

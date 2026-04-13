@@ -20,12 +20,6 @@ if (!is_file($root . '/index.html') && !is_dir($root . '/shop')) {
 
 $uri = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?: '/';
 
-// Pre-launch: mirror php/public/.htaccess — storefront redirects to /. Remove when launching.
-if (preg_match('#^/shop(/.*)?$#', $uri)) {
-    header('Location: /', true, 301);
-    exit;
-}
-
 // Static file (css, js, images, .php served as files)
 if ($uri !== '/' && $uri !== '') {
     $file = $root . $uri;

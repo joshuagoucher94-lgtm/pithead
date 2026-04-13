@@ -67,6 +67,7 @@ try {
                 'UPDATE orders SET status = ?, stripe_payment_intent_id = COALESCE(?, stripe_payment_intent_id) WHERE id = ?'
             );
             $st->execute(['paid', $pi !== '' ? $pi : null, $orderId]);
+            pithead_try_send_order_confirmation_email($pdo, $orderId);
         }
     }
 

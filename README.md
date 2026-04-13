@@ -152,13 +152,14 @@ Upload **everything inside** `deploy/` to `public_html/`:
 
 The `_inc/` directory holds config, auth, Stripe SDK, and libraries. Apache should deny direct HTTP access (`.htaccess` with `Require all denied` is included).
 
-**Shop pre-launch:** [`php/public/.htaccess`](php/public/.htaccess) sends **301** from every `/shop/…` URL to `/`. **`/api/*` is unchanged** (cart APIs, Stripe, webhooks, health checks). To turn the storefront back on, delete that `RewriteRule ^shop(/.*)?$` line and redeploy; for local `php -S`, remove the matching block in [`scripts/dev-router.php`](scripts/dev-router.php).
+**Storefront:** `/shop/` is live (product grid, cart, Embedded Checkout). Pretty URLs: `/shop/your-product-slug`.
 
 ## Stripe
 
 1. **Keys** in `config.local.php`: `stripe.secret_key`, `stripe.publishable_key`, `stripe.webhook_secret`.
 2. **Webhook endpoint:** `https://pithead.co.uk/api/stripe-webhook.php`
 3. Listen for at least: `checkout.session.completed`, `checkout.session.async_payment_failed`, `checkout.session.expired` (optional but supported).
+4. **Customer emails:** In the Stripe Dashboard, turn on emails for successful payments (receipts / payment confirmations) so buyers get Stripe’s receipt in addition to any site-sent confirmation.
 
 Test locally with [Stripe CLI](https://stripe.com/docs/stripe-cli):
 
@@ -172,6 +173,8 @@ stripe listen --forward-to http://localhost:8000/api/stripe-webhook.php
 2. Checkout collects email/name, then `POST /api/create-embedded-checkout-session.php` creates an **order** (`pending_payment`) and a **Checkout Session** (`ui_mode: embedded`).
 3. `shop/checkout.php` mounts Embedded Checkout with Stripe.js.
 4. `return_url` → `shop/thank-you.php` clears the cart when payment is confirmed; webhooks update `orders.status`.
+5. After payment, the webhook sends a plain-text **order summary** to the customer via `mail()` once (`orders.confirmation_email_sent_at`). Run [`sql/migrations/20260412_orders_confirmation_email_sent_at.sql`](sql/migrations/20260412_orders_confirmation_email_sent_at.sql) on existing databases. **Shipping** is still `shipping_cents = 0` in code (postage folded into bean prices); change [`php/public/_inc/orders.php`](php/public/_inc/orders.php) / checkout if you add a separate postage line later.
+6. **Catalog:** live prices, activation, and images are managed in `/admin/products.php` (seed data uses SVG placeholders under `/assets/products/` until you replace them).
 
 ## Optional Composer
 

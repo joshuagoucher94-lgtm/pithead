@@ -10,9 +10,6 @@ DirectoryIndex index.html index.php
   RewriteRule ^drinks/?$ / [R=301,L]
   RewriteRule ^wholesale/?$ / [R=301,L]
 
-  # Shop offline until launch — remove this line to re-enable storefront (pretty URLs below will apply again).
-  RewriteRule ^shop(/.*)?$ / [R=301,L]
-
   # Admin dashboard: /admin and /admin/ → admin/index.php (avoids 404 when trailing slash / index handling differs per host)
   RewriteRule ^admin/?$ admin/index.php [L,QSA]
 
