@@ -10,42 +10,46 @@ if ($slug === '') {
     pithead_redirect('/shop/');
 }
 
-$pdo = pithead_pdo();
-$st = $pdo->prepare(
-    'SELECT p.*, c.slug AS category_slug, c.name AS category_name FROM products p
-     JOIN categories c ON c.id = p.category_id
-     WHERE p.slug = ? AND p.is_active = 1 LIMIT 1'
-);
-$st->execute([$slug]);
-$p = $st->fetch();
-if ($p === false) {
-    http_response_code(404);
-    pithead_layout_start(['title' => 'Not found', 'main_class' => 'py-24']);
-    echo '<div class="mx-auto max-w-7xl px-4"><p class="text-offwhite/80">Product not found.</p><a class="mt-4 inline-block text-imperial" href="/shop/">Shop</a></div>';
-    pithead_layout_end();
-    exit;
-}
-
-$imgSt = $pdo->prepare('SELECT path FROM product_images WHERE product_id = ? ORDER BY is_primary DESC, sort_order ASC');
-$imgSt->execute([(int) $p['id']]);
-$images = $imgSt->fetchAll();
-$primary = $images[0]['path'] ?? '/assets/products/placeholder.svg';
-
-$relSt = $pdo->prepare(
-    'SELECT slug, name, price_cents FROM products WHERE is_active = 1 AND id != ? AND category_id = ? ORDER BY id ASC LIMIT 3'
-);
-$relSt->execute([(int) $p['id'], (int) $p['category_id']]);
-$related = $relSt->fetchAll();
-
-$specs = [];
-if (!empty($p['specs'])) {
-    $decoded = json_decode((string) $p['specs'], true);
-    if (is_array($decoded)) {
-        $specs = $decoded;
+try {
+    $pdo = pithead_pdo();
+    $st = $pdo->prepare(
+        'SELECT p.*, c.slug AS category_slug, c.name AS category_name FROM products p
+         JOIN categories c ON c.id = p.category_id
+         WHERE p.slug = ? AND p.is_active = 1 LIMIT 1'
+    );
+    $st->execute([$slug]);
+    $p = $st->fetch();
+    if ($p === false) {
+        http_response_code(404);
+        pithead_layout_start(['title' => 'Not found', 'main_class' => 'py-24']);
+        echo '<div class="mx-auto max-w-7xl px-4"><p class="text-offwhite/80">Product not found.</p><a class="mt-4 inline-block text-imperial" href="/shop/">Shop</a></div>';
+        pithead_layout_end();
+        exit;
     }
-}
 
-$price = number_format(((int) $p['price_cents']) / 100, 2);
+    $imgSt = $pdo->prepare('SELECT path FROM product_images WHERE product_id = ? ORDER BY is_primary DESC, sort_order ASC');
+    $imgSt->execute([(int) $p['id']]);
+    $images = $imgSt->fetchAll();
+    $primary = $images[0]['path'] ?? '/assets/products/placeholder.svg';
+
+    $relSt = $pdo->prepare(
+        'SELECT slug, name, price_cents FROM products WHERE is_active = 1 AND id != ? AND category_id = ? ORDER BY id ASC LIMIT 3'
+    );
+    $relSt->execute([(int) $p['id'], (int) $p['category_id']]);
+    $related = $relSt->fetchAll();
+
+    $specs = [];
+    if (!empty($p['specs'])) {
+        $decoded = json_decode((string) $p['specs'], true);
+        if (is_array($decoded)) {
+            $specs = $decoded;
+        }
+    }
+
+    $price = number_format(((int) $p['price_cents']) / 100, 2);
+} catch (Throwable $e) {
+    pithead_shop_unavailable($e);
+}
 
 pithead_layout_start(['title' => (string) $p['name'] . ' — PITHEAD', 'main_class' => 'py-16 md:py-24']);
 ?>

@@ -8,6 +8,8 @@ declare(strict_types=1);
 return [
     'env' => 'development',
     'db' => [
+        // Local dev: 127.0.0.1 is fine. If TCP is refused, pithead_pdo() retries with "localhost" (socket).
+        // On Hostinger, use the MySQL hostname from hPanel (often localhost or a named host), not a guess.
         'host' => '127.0.0.1',
         'port' => 3306,
         'name' => 'pithead',

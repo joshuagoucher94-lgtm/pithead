@@ -5,12 +5,16 @@ declare(strict_types=1);
 require dirname(__DIR__) . '/_inc/bootstrap.php';
 require_once dirname(__DIR__) . '/partials/layout.php';
 
-$pdo = pithead_pdo();
-$st = $pdo->query(
-    'SELECT p.*, (SELECT path FROM product_images WHERE product_id = p.id AND is_primary = 1 ORDER BY sort_order LIMIT 1) AS image_path
-     FROM products p WHERE p.is_active = 1 ORDER BY p.id ASC'
-);
-$products = $st->fetchAll();
+try {
+    $pdo = pithead_pdo();
+    $st = $pdo->query(
+        'SELECT p.*, (SELECT path FROM product_images WHERE product_id = p.id AND is_primary = 1 ORDER BY sort_order LIMIT 1) AS image_path
+         FROM products p WHERE p.is_active = 1 ORDER BY p.id ASC'
+    );
+    $products = $st->fetchAll();
+} catch (Throwable $e) {
+    pithead_shop_unavailable($e);
+}
 
 pithead_layout_start(['title' => 'Shop — PITHEAD ROASTWORKS', 'main_class' => 'py-16 md:py-24']);
 ?>

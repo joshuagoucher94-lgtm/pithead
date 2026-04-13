@@ -5,11 +5,15 @@ declare(strict_types=1);
 require dirname(__DIR__) . '/_inc/bootstrap.php';
 require_once dirname(__DIR__) . '/partials/layout.php';
 
-$pdo = pithead_pdo();
-$resolved = pithead_cart_resolve($pdo);
-$lines = $resolved['lines'];
-$subtotal = $resolved['subtotal_cents'];
-$csrf = pithead_csrf_token();
+try {
+    $pdo = pithead_pdo();
+    $resolved = pithead_cart_resolve($pdo);
+    $lines = $resolved['lines'];
+    $subtotal = $resolved['subtotal_cents'];
+    $csrf = pithead_csrf_token();
+} catch (Throwable $e) {
+    pithead_shop_unavailable($e);
+}
 
 pithead_layout_start(['title' => 'Cart — PITHEAD ROASTWORKS', 'main_class' => 'py-16 md:py-24']);
 ?>

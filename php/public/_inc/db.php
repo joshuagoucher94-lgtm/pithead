@@ -36,9 +36,30 @@ function pithead_pdo(): PDO
     } else {
         $dsn = "mysql:host={$host};port={$port};dbname={$name};charset={$charset}";
     }
-    $pdo = new PDO($dsn, $user, $pass, [
+    $opts = [
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-    ]);
+    ];
+    try {
+        $pdo = new PDO($dsn, $user, $pass, $opts);
+    } catch (PDOException $e) {
+        // Shared hosts (e.g. Hostinger) often expose MySQL on a Unix socket for "localhost"
+        // while TCP to 127.0.0.1 is refused — config copied from local dev hits this.
+        $msg = $e->getMessage();
+        $tcpRefused = str_contains($msg, '2002') || str_contains($msg, 'Connection refused');
+        $canRetryLocalhost = $tcpRefused
+            && $host === '127.0.0.1'
+            && (!is_string($socket) || $socket === '');
+        if ($canRetryLocalhost) {
+            $dsnLocal = "mysql:host=localhost;port={$port};dbname={$name};charset={$charset}";
+            try {
+                $pdo = new PDO($dsnLocal, $user, $pass, $opts);
+            } catch (PDOException) {
+                throw $e;
+            }
+        } else {
+            throw $e;
+        }
+    }
     return $pdo;
 }

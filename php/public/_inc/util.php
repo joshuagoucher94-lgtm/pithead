@@ -206,3 +206,21 @@ function pithead_try_send_order_confirmation_email(PDO $pdo, int $orderId): void
     );
     $up->execute([$orderId]);
 }
+
+/**
+ * Shop pages: avoid opaque HTTP 500 when DB or catalog queries fail; log details server-side.
+ */
+function pithead_shop_unavailable(Throwable $e): never
+{
+    error_log('pithead shop: ' . $e->getMessage() . ' @ ' . $e->getFile() . ':' . $e->getLine());
+    if (!headers_sent()) {
+        http_response_code(503);
+    }
+    if (!function_exists('pithead_layout_start')) {
+        require_once PITHEAD_ROOT . '/partials/layout.php';
+    }
+    pithead_layout_start(['title' => 'Shop — PITHEAD ROASTWORKS', 'main_class' => 'py-24']);
+    echo '<div class="mx-auto max-w-2xl px-4 md:px-8"><p class="text-offwhite/80">The shop is temporarily unavailable. Please try again in a few minutes or email <a class="text-imperial underline" href="mailto:hello@pithead.co.uk">hello@pithead.co.uk</a>.</p><p class="mt-6 text-xs text-offwhite/40">If you manage this site, check database settings in <code class="text-offwhite/60">_inc/config.local.php</code>, import <code class="text-offwhite/60">sql/schema.sql</code> if needed, and read <code class="text-offwhite/60">_inc/logs/php-errors.log</code>.</p></div>';
+    pithead_layout_end();
+    exit;
+}

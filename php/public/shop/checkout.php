@@ -6,14 +6,18 @@ require dirname(__DIR__) . '/_inc/bootstrap.php';
 require_once dirname(__DIR__) . '/_inc/stripe_init.php';
 require_once dirname(__DIR__) . '/partials/layout.php';
 
-$pdo = pithead_pdo();
-$resolved = pithead_cart_resolve($pdo);
-if ($resolved['lines'] === []) {
-    pithead_redirect('/shop/cart.php');
-}
+try {
+    $pdo = pithead_pdo();
+    $resolved = pithead_cart_resolve($pdo);
+    if ($resolved['lines'] === []) {
+        pithead_redirect('/shop/cart.php');
+    }
 
-$pk = pithead_stripe_config()['publishable_key'];
-$csrf = pithead_csrf_token();
+    $pk = pithead_stripe_config()['publishable_key'];
+    $csrf = pithead_csrf_token();
+} catch (Throwable $e) {
+    pithead_shop_unavailable($e);
+}
 
 pithead_layout_start(['title' => 'Checkout — PITHEAD ROASTWORKS', 'main_class' => 'py-16 md:py-24']);
 ?>
