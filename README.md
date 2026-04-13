@@ -53,7 +53,7 @@ Hostinger’s reference: [How to use FTP](https://support.hostinger.com/en/artic
 - **`config.local.php`** — on Hostinger, create `public_html/_inc/config.local.php` from [`php/public/_inc/config.example.php`](php/public/_inc/config.example.php). Set DB credentials, `app.base_url` to `https://pithead.co.uk`, Stripe keys. Never commit this file.
 - **Stripe webhook** — `https://pithead.co.uk/api/stripe-webhook.php`.
 
-**`/shop/` returns 500** — almost always database: wrong `db.host` / `db.name` / `db.user` / `db.pass`, or `schema.sql` not imported. Check **`public_html/_inc/logs/php-errors.log`** and hPanel **Advanced → Error log**. To see a clear JSON error without reading logs: add to `config.local.php` a long random `'health_check_key' => '…'`, deploy, open `https://pithead.co.uk/api/health-db.php?key=…`, then **remove** `health_check_key`.
+**`/shop/` returns 500** — almost always database: wrong `db.host` / `db.name` / `db.user` / `db.pass`, or `schema.sql` not imported (missing `products` / `product_images` tables). On Hostinger, `db.host` is often **not** `127.0.0.1` — use the hostname shown in hPanel → Databases (sometimes `localhost` works when TCP to `127.0.0.1` does not). Check **`public_html/_inc/logs/php-errors.log`** and hPanel **Advanced → Error log**. To see a clear JSON error without reading logs: add to `config.local.php` a long random `'health_check_key' => '…'`, deploy, open `https://pithead.co.uk/api/health-db.php?key=…`, then **remove** `health_check_key`.
 
 ### Manual zip only (no FTP)
 

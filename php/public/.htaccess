@@ -13,6 +13,9 @@ DirectoryIndex index.html index.php
   # Admin dashboard: /admin and /admin/ → admin/index.php (avoids 404 when trailing slash / index handling differs per host)
   RewriteRule ^admin/?$ admin/index.php [L,QSA]
 
+  # Shop listing: /shop and /shop/ → shop/index.php (explicit; some hosts mishandle DirectoryIndex under /shop/)
+  RewriteRule ^shop/?$ shop/index.php [L,QSA]
+
   # Shop product pretty URLs: /shop/product-slug
   RewriteRule ^shop/([a-z0-9-]+)/?$ shop/product.php?slug=$1 [L,QSA]
 
